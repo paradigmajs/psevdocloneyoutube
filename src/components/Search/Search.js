@@ -1,23 +1,22 @@
 import React, { Component } from 'react'
 
-export default class Search extends Component {
-    constructor(props){
-        super(props)
-    }
-    render() {
-        return (
-            <div>
+
+export default function Search(props) {
+    return (
+        <div>
+            
                 <input 
-                    value={this.props.value} 
+                    value={props.value} 
                     onChange={(event)=>
-                        this.props.onChangeValue(event)
+                        props.onChangeValue(event)
                     }
 
                 />
                 <button
-                    onClick={this.props.searchVideoByValue}
+                    onClick={props.searchVideoByValue}
                 >Search</button>
-            </div>
-        )
-    }
+            
+        </div>
+    )
 }
+

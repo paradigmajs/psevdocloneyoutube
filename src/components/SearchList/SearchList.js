@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import Search from '../Search/Search'
 import { API } from '../Constants'
 import { Link } from 'react-router-dom'
@@ -15,35 +15,32 @@ function RenderVideos(props){
     )
 }
 
-export default class SearchList extends Component {
-    state={
-        value:'',
-        data:[]
+
+export default function SearchList() {
+    const [data, setData] = useState()
+    const [value, setValue] = useState('')
+    const onChangeValue=(e)=>{
+        setValue(e.target.value)
     }
 
-    onChangeValue=(e)=>{
-        this.setState({value:e.target.value})
-    }
-
-    searchVideoByValue= async ()=>{
-        let q = this.state.value
+    const searchVideoByValue= async ()=>{
+        let q = value
         let resp = await fetch(API+'q=' + q)
         let data = await resp.json()
-        console.log(data)
-        this.setState({data:data.items})
+        
+        setData(data.items)
     }
-
-    render() {
-        return (
-            <div>
+    return (
+        
+              <div>
                 <Search 
-                    onChangeValue = {this.onChangeValue}
-                    searchVideoByValue = {this.searchVideoByValue}
-                    value = {this.state.value}
+                    onChangeValue = {onChangeValue}
+                    searchVideoByValue = {searchVideoByValue}
+                    value = {value}
                 />
                 {
-                    this.state.data ?
-                    this.state.data.map(el=>{
+                    data ?
+                    data.map(el=>{
                         return(
                             <RenderVideos element={el}/>
                         )
@@ -51,6 +48,6 @@ export default class SearchList extends Component {
                     : null
                 }
             </div>
-        )
-    }
+        
+    )
 }
